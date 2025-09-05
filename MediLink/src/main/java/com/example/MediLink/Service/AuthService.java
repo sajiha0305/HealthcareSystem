@@ -26,8 +26,7 @@ public class AuthService {
 		List<UserEntity> userEntity=userRepo.findByEmail(email);
 		if(!userEntity.isEmpty())
 		{
-	        RegisterEmailResponse emailResponse=new RegisterEmailResponse("Error","Email Already Exists. Please login");
-			return ResponseEntity.ok(emailResponse);
+            return ResponseEntity.badRequest().body(new RegisterEmailResponse("error", "Email Already Exist"));
 		}
 		
 		String otp = otpService.generateOtp(6); // 6-digit OTP
