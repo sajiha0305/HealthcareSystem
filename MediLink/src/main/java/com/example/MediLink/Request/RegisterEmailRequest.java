@@ -10,4 +10,5 @@ import lombok.Data;
 public class RegisterEmailRequest {
 
 	private String email;
+	private String otp;
 }

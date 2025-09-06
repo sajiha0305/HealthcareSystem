@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.MediLink.Entity.UserEntity;
 import com.example.MediLink.Repository.UserRepository;
+import com.example.MediLink.Request.RegisterEmailRequest;
 import com.example.MediLink.Response.RegisterEmailResponse;
 
 @Service
@@ -29,10 +30,22 @@ public class AuthService {
             return ResponseEntity.badRequest().body(new RegisterEmailResponse("error", "Email Already Exist"));
 		}
 		
-		String otp = otpService.generateOtp(6); // 6-digit OTP
+		String otp = otpService.generateOtp(6,email); // 6-digit OTP
         emailService.sendOtp(email, otp);
         RegisterEmailResponse emailResponse=new RegisterEmailResponse("success","OTP Sent Successfully!!");
         return ResponseEntity.ok(emailResponse);
+		
+	}
+	
+	public ResponseEntity<RegisterEmailResponse> verifyOtp(RegisterEmailRequest request)
+	{
+		
+		boolean verifyOtp=otpService.verifyOtp(request.getEmail(), request.getOtp());
+		if(verifyOtp) {
+        RegisterEmailResponse otpResponse=new RegisterEmailResponse("success","OTP Verified");
+		return ResponseEntity.ok(otpResponse);
+		}
+		return ResponseEntity.ok(new RegisterEmailResponse("Error", "Invalid OTP"));
 		
 	}
 

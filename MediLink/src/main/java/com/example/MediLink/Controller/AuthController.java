@@ -22,8 +22,13 @@ public class AuthController {
 	private ResponseEntity<RegisterEmailResponse> registerEmail(@RequestBody RegisterEmailRequest request)
 	{
 		
-		
 		return authSevice.registerEmail(request.getEmail());
+	}
+	
+	@PostMapping("/register/verifyOtp")
+	private ResponseEntity<RegisterEmailResponse> validateOTP(@RequestBody RegisterEmailRequest request)
+	{
+		return authSevice.verifyOtp(request);
 	}
 
 }
